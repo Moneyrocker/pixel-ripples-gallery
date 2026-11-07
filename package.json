@@ -1,0 +1,6 @@
+{
+  "name": "pixel-ripples-gallery",
+  "private": true,
+  "type": "module",
+  "scripts": { "build": "node scripts/prepare-deploy.mjs" }
+}
