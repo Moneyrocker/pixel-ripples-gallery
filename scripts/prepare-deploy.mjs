@@ -26,6 +26,7 @@ const copyReferencedAsset = async (ref, fromFile = sourceFile) => {
   if (source === join(repoRoot, 'studio')) source = join(source, 'index.html')
   const repoRelative = relative(repoRoot, source)
   if (!repoRelative || repoRelative.startsWith('..') || isAbsolute(repoRelative)) throw new Error(`Reference escapes repository: ${ref}`)
+  if (/^demo\/(xiangshi|design-lab|chat-galaxy)\/?$/.test(clean)) return clean
   const studioPage = repoRelative === 'studio/index.html'
   if (!studioPage && (!repoRelative.startsWith('assets/') || !['.png','.jpg','.jpeg','.webp','.svg','.gif','.avif','.css','.js','.woff','.woff2','.ttf','.otf','.mp4','.webm'].includes(extname(source).toLowerCase()))) throw new Error(`Only website assets may be published: ${ref}`)
   const resolvedSource = await realpath(source)
@@ -49,6 +50,25 @@ await mkdir(outputDir, { recursive: true })
 await cp(sourceFile, join(outputDir, 'index.html'))
 const copied = []
 for (const ref of refs) copied.push(await copyReferencedAsset(ref))
+
+// Explicit public demo roots. No source trees, source maps or development files.
+const demoExtensions = new Set(['.html', '.js', '.css', '.svg', '.png', '.jpg', '.jpeg', '.webp', '.avif', '.gif', '.woff', '.woff2', '.ttf', '.ico', '.txt'])
+async function copyDemo(dir, target) {
+  const resolvedDir = await realpath(dir)
+  if (relative(repoRoot, resolvedDir).startsWith('..')) throw new Error(`Demo escapes repository: ${dir}`)
+  await mkdir(target, { recursive: true })
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    if (entry.name.startsWith('.') || entry.name === 'node_modules') throw new Error(`Unexpected hidden/development demo asset: ${entry.name}`)
+    const source = join(dir, entry.name)
+    const destination = join(target, entry.name)
+    if (entry.isDirectory()) await copyDemo(source, destination)
+    else if (entry.isFile() && demoExtensions.has(extname(entry.name).toLowerCase())) await cp(source, destination)
+    else throw new Error(`Unapproved demo asset: ${source}`)
+  }
+}
+for (const demo of ['xiangshi', 'design-lab', 'chat-galaxy']) {
+  await copyDemo(join(repoRoot, 'demo', demo), join(outputDir, 'demo', demo))
+}
 
 const outputFiles = []
 const walk = async (dir) => {

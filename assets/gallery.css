@@ -23,3 +23,8 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
 
 .project{text-decoration:none;color:inherit}.project-cover{position:relative;aspect-ratio:3/2}.project-image{width:100%;height:100%;object-fit:cover}.cover-note{position:absolute;bottom:10px;left:12px;background:#090e13b8;padding:4px 7px;color:#d5dedb;font:8px monospace;letter-spacing:.08em}.project-kicker{line-height:1.6}
+
+/* Compact works introduction, retaining an accessible section heading. */
+.works{padding-top:32px;scroll-margin-top:0}.works-intro{margin-top:0;margin-bottom:22px}@media(max-width:700px){.works{padding-top:26px}.works-intro{margin-bottom:18px}}
+
+.demo-go{font-size:12px;font-weight:500;line-height:1.5;letter-spacing:.02em}

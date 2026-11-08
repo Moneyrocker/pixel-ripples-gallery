@@ -1,5 +1,9 @@
 (() => {
   'use strict';
+  document.querySelectorAll('a.project[href]').forEach(link=>{
+    if(link.dataset.demoPath && ['localhost','127.0.0.1'].includes(location.hostname)) link.href=link.dataset.demoPath;
+    if(new URL(link.href,location.href).origin!==location.origin){link.target='_blank';link.rel='noopener noreferrer'}
+  });
   const cards=[...document.querySelectorAll('.project')];
   const filters=[...document.querySelectorAll('[data-filter]')];
   const nav=document.getElementById('topNav');
