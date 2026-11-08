@@ -16,7 +16,7 @@ Build and review the relevant private project in an isolated working copy; do no
 
 Replace only the corresponding reviewed `demo/<name>/` output, run `npm run build`, test interactions and direct refreshes, and inspect the full `public-site/` artifact before publication. Do not use an unreviewed new build from the private projects.
 
-Chat Galaxy's gallery link uses the canonical production URL because Next.js assets have a fixed root base path. On localhost the link points to the local demo; on the GitHub Pages mirror it opens the production demo in a new tab. Relative Vite demos work on both hosts.
+Chat Galaxy's gallery link uses the canonical production URL because Next.js assets have a fixed root base path. On localhost the link points to the local demo; on the GitHub Pages mirror it opens the production demo in a new tab. Relative Vite demos work on both hosts. Chat Galaxy must use an ordinary HTML anchor when returning to the non-Next.js gallery; a Next Link can incorrectly prefetch the gallery as an RSC route on the same origin.
 
 ## Existing CloudBase hosting
 
