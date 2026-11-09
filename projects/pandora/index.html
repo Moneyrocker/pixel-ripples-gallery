@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090e13">
+<meta name="description" content="Pandora · 潘多拉，统一个人项目管理工作台。了解统一登录、Brave 资料管理、审核及 Excel/CSV 导入的本地实现；管理后台部署中。">
+<title>Pandora · 潘多拉 — MONEY AI STUDIO</title>
+<link rel="icon" type="image/svg+xml" href="../../assets/gallery-mark.svg">
+<link rel="stylesheet" href="../../assets/gallery.css"><link rel="stylesheet" href="../../assets/pandora.css">
+</head>
+<body class="case-page">
+<a class="skip-link" href="#project">跳至项目介绍</a>
+<header class="site-header"><div class="page header-inner"><a class="brand" href="../../" aria-label="返回 MONEY AI STUDIO"><span class="brand-mark" aria-hidden="true"></span><span>MONEY AI STUDIO</span></a><a class="case-back" href="../../#works">← 返回作品</a></div></header>
+<main class="page case-main" id="project">
+<section class="case-intro"><p class="case-kicker">DIGITAL PRODUCT / MANAGEMENT SYSTEM</p><h1>Pandora <span>· 潘多拉</span></h1><p class="case-lead">一个入口，让独立项目有序协同。</p><p class="case-description">AI 驱动的统一项目管理工作台。集中管理多个独立产品的后台、内容与业务数据，提供统一的项目入口、身份认证和权限管理。当前已接入 Brave 本地管理闭环，AI 辅助资料导入仍为规划能力。</p><div class="case-actions"><button type="button" class="case-button" id="deploymentPending" disabled>管理后台部署中</button><a class="case-button" id="pandoraEntry" target="_blank" rel="noopener noreferrer" hidden>进入潘多拉 ↗</a><span class="case-status" data-deployment-status>本地功能已验证 · 管理后台部署中</span></div></section>
+<figure class="case-cover"><img src="../../assets/covers/pandora.png" width="1672" height="941" alt="薄荷绿色玻璃模块组成的数字工作台概念视觉，没有实际业务数据"><figcaption>用户提供的工作台概念封面 · 非实际界面或功能截图</figcaption></figure>
+<section class="case-section"><div class="case-section-heading"><p class="case-kicker">01 / CAPABILITIES</p><h2>把常用的管理工作，放在一起。</h2></div><div class="case-features"><article><span>01</span><h3>统一入口与身份</h3><p>个人项目目录、Owner 登录与 30 天记住我。服务端校验 Owner / 会员权限，退出或修改密码后撤销对应会话。</p></article><article><span>02</span><h3>Brave 资料管理</h3><p>手动录入、搜索编辑、资料审核、授权记录与发布/暂停。Excel/CSV 支持映射、纠错、去重与导入报告。</p></article><article><span>03</span><h3>保留独立，按需扩展</h3><p>通过项目注册表预留新模块入口。Design Lab 与居住实验室尚未接入管理功能，公司空间仅保留安全索引。</p></article></div></section>
+<section class="case-section"><div class="case-section-heading"><p class="case-kicker">02 / WORKSPACE</p><h2>清晰的项目边界。</h2></div><div class="workspace-illustration" aria-label="公开架构示意，非实际后台界面"><div class="workspace-sidebar"><b>PANDORA</b><span>总览</span><span class="selected">个人项目</span><span>公司项目</span><span>设置</span></div><div class="workspace-content"><p class="case-kicker">个人工作区 / 模块入口</p><div class="workspace-modules"><article><span class="module-state">本地已接入</span><h3>Brave</h3><p>资料 · 审核 · 导入</p></article><article><span class="module-state muted">尚未接入</span><h3>Design Lab</h3><p>视觉与组件实验</p></article><article><span class="module-state muted">尚未接入</span><h3>居住实验室</h3><p>独立空间模拟器</p></article></div><p class="illustration-note">结构示意 · 不连接管理 API，不包含账户或业务资料</p></div></div></section>
+<section class="case-section case-split"><div><p class="case-kicker">03 / ARCHITECTURE</p><h2>公开作品，私有系统。</h2><p class="case-body">作品站只承载项目介绍和视觉素材。Pandora 的认证、数据操作与权限验证位于独立服务端，私有代码不随作品站发布。</p><dl class="architecture-list"><div><dt>前端</dt><dd>React · TypeScript · Vite</dd></div><div><dt>本地服务</dt><dd>Node.js · SQLite 持久化</dd></div><div><dt>安全</dt><dd>Owner 鉴权 · HttpOnly 会话 · 私有照片访问</dd></div><div><dt>云端目标</dt><dd>CloudBase Auth / PostgreSQL / 私有对象存储，待接入</dd></div></dl></div><div><p class="case-kicker">04 / STATUS</p><h2>实现到哪，就展示到哪。</h2><ul class="status-list"><li><span>已实现 · 本地验证</span>统一后台、账户安全与记住登录</li><li><span>已实现 · 本地验证</span>Brave CRUD、审核及 Excel/CSV 导入</li><li><span>已实现 · 本地验证</span>受控邀请注册、资料提交、授权与候选池</li><li><span>待部署 / 待接入</span>线上管理后台、正式身份验证与云端数据层</li><li><span>规划能力</span>AI 辅助资料导入、更多业务模块与细分项目权限</li></ul><p class="case-body small">截至 2026-11-09，未发现可验证的线上管理入口。未将本地测试认证作为正式生产服务发布。</p></div></section>
+<section class="case-end"><p>管理权限与业务数据，始终留在私有后台。</p><a href="../../#works">浏览其他作品 ↗</a></section>
+</main>
+<footer class="footer"><div class="page footer-inner"><div><h2>MONEY AI STUDIO</h2><p>Pixel Ripples / 像素涟漪</p></div><p class="footer-note">Pandora · 项目案例<br>公开展示不授予管理权限。</p></div></footer>
+<script src="../../assets/pandora-config.js"></script><script src="../../assets/pandora.js"></script>
+</body></html>

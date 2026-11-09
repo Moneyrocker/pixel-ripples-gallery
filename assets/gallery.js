@@ -10,6 +10,7 @@
   const menu=document.getElementById('menuToggle');
   const modal=document.getElementById('detailModal');
   let opener=null;
+  document.getElementById('filterStatus').textContent=`全部 ${cards.length} 个作品`;
   function applyFilter(category){
     filters.forEach(button=>{const active=button.dataset.filter===category;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active))});
     cards.forEach(card=>card.hidden=category!=='全部'&&card.dataset.category!==category);
