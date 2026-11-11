@@ -23,12 +23,12 @@ const copyReferencedAsset = async (ref, fromFile = sourceFile) => {
   const clean = ref.split(/[?#]/, 1)[0]
   let source = clean.startsWith('/') ? resolve(repoRoot, clean.slice(1)) : resolve(dirname(fromFile), clean)
   if (source === repoRoot) return 'index.html'
-  if (source === join(repoRoot, 'studio')) source = join(source, 'index.html')
+  if (source === join(repoRoot, 'studio') || source === join(repoRoot, 'projects/pandora')) source = join(source, 'index.html')
   const repoRelative = relative(repoRoot, source)
   if (!repoRelative || repoRelative.startsWith('..') || isAbsolute(repoRelative)) throw new Error(`Reference escapes repository: ${ref}`)
-  if (/^demo\/(xiangshi|design-lab|chat-galaxy)\/?$/.test(clean)) return clean
-  const studioPage = repoRelative === 'studio/index.html'
-  if (!studioPage && (!repoRelative.startsWith('assets/') || !['.png','.jpg','.jpeg','.webp','.svg','.gif','.avif','.css','.js','.woff','.woff2','.ttf','.otf','.mp4','.webm'].includes(extname(source).toLowerCase()))) throw new Error(`Only website assets may be published: ${ref}`)
+  if (/^demo\/(xiangshi|design-lab|chat-galaxy|living-studio)\/?$/.test(clean)) return clean
+  const studioPage = ['studio/index.html', 'projects/pandora/index.html'].includes(repoRelative)
+  if (!studioPage && repoRelative !== 'assets/vendor/OGL-LICENSE.txt' && (!repoRelative.startsWith('assets/') || !['.png','.jpg','.jpeg','.webp','.svg','.gif','.avif','.css','.js','.woff','.woff2','.ttf','.otf','.mp4','.webm'].includes(extname(source).toLowerCase()))) throw new Error(`Only website assets may be published: ${ref}`)
   const resolvedSource = await realpath(source)
   if (relative(repoRoot, resolvedSource).startsWith('..')) throw new Error(`Asset symlink escapes repository: ${ref}`)
   if (copiedPaths.has(repoRelative)) return repoRelative
@@ -66,7 +66,12 @@ async function copyDemo(dir, target) {
     else throw new Error(`Unapproved demo asset: ${source}`)
   }
 }
-for (const demo of ['xiangshi', 'design-lab', 'chat-galaxy']) {
+for (const entry of await readdir(join(repoRoot, 'assets/brand'))) {
+  if (!/\.(svg|png)$/.test(entry)) throw new Error(`Unexpected brand asset: ${entry}`)
+  await copyReferencedAsset(`assets/brand/${entry}`)
+}
+
+for (const demo of ['xiangshi', 'design-lab', 'chat-galaxy', 'living-studio']) {
   await copyDemo(join(repoRoot, 'demo', demo), join(outputDir, 'demo', demo))
 }
 

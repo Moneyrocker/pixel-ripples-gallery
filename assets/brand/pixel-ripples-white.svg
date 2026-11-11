@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" role="img" aria-label="Pixel Ripples Split Arc">
+
+<path d="M34 22 A54 54 0 0 1 88 76" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="butt"/>
+<path d="M34 39 A37 37 0 0 1 71 76" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="butt"/>
+<path d="M34 56 A20 20 0 0 1 54 76" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="butt"/>
+<rect x="8" y="80" width="9" height="9" fill="#FFFFFF"/>
+<rect x="19" y="68" width="9" height="9" fill="#FFFFFF"/>
+<rect x="30" y="56" width="9" height="9" fill="#FFFFFF"/>
+</svg>

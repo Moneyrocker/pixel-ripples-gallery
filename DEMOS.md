@@ -1,14 +1,15 @@
 # Public demo snapshots
 
-`demo/` contains reviewed static build outputs only. The gallery remains native HTML/CSS/JavaScript; `npm run build` copies these three explicit demo directories alongside the gallery and `studio/`.
+`demo/` contains reviewed static build outputs only. The gallery remains native HTML/CSS/JavaScript; `npm run build` copies these four explicit demo directories alongside the gallery and `studio/`.
 
 | Path | Public experience | Safety boundary |
 | --- | --- | --- |
 | `demo/xiangshi/` | Existing 相识 user-flow prototype | Fictional profiles and local SVG portraits; read-only fake contact fields; no administrator or test-console routes; browser-local state with an isolated key; no backend or real matchmaking |
 | `demo/design-lab/` | Existing Design Lab Playground | Original style/component/motion studies; no backend |
+| `demo/living-studio/` | Existing Living Studio spatial editor | Fictional room only, original orbit/material/furniture/lighting controls, browser-only persistence, no development API or private plans |
 | `demo/chat-galaxy/` | Existing Chat Galaxy orbital interaction | Fictional numbered nodes; no real contacts, personal contact details, AI analysis or backend; static Next.js export |
 
-Living Studio stays in the gallery's detail dialog. Its source includes private residence assets and a development-only file API and has not been published.
+Living Studio uses the original 0.4.0 engine with a completely fictional one-room example. The source residence, garage dataset, reference images, snapshots and development file API are excluded. Only browser-local state is used, with isolated storage keys. The private source project and personal plans are unchanged.
 
 ## Updating snapshots
 
