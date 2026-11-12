@@ -415,8 +415,8 @@ void main() {
 function mountWaves(container) {
   const settingsRef = { current: {
     ...SURFACE_PRESETS.silk, color: [1, 1, 1, 1], background: [9/255, 14/255, 19/255, 1],
-    opacity: 1, fade: 'bottom', fadeSize: .28, characters: DEFAULT_CHARACTERS,
-    interactive: matchMedia('(pointer:fine)').matches, cursorSize: 50, cursorStrength: .6,
+    opacity: 1, fade: 'bottom', fadeSize: matchMedia('(pointer:coarse)').matches ? .12 : .28, characters: DEFAULT_CHARACTERS,
+    interactive: true, cursorSize: 50, cursorStrength: .6,
     intro: true, paused: false
   }};
   const wakeRef = { current: null };
@@ -572,6 +572,7 @@ function mountWaves(container) {
       canvas.style.display = 'none';
     };
     canvas.addEventListener('webglcontextlost', onContextLost);
+    let touchPress = null;
     const pointer = { x: 0, y: 0, inside: false, placed: false, lastX: 0, lastY: 0, burst: 0 };
 
     const buildRipple = () => {
@@ -623,6 +624,7 @@ function mountWaves(container) {
 
     const stepRipple = (field, s, dt) => {
       rippleClock = Math.min(rippleClock + dt * RIPPLE_RATE, 4);
+      if (rippleClock < 1) return; // Keep a tap impulse until a simulation step can consume it.
       const strength = clamp(s.cursorStrength, 0, 1);
       const moved = Math.hypot(pointer.x - pointer.lastX, pointer.y - pointer.lastY);
       let impulse = (pointer.inside ? Math.min(moved / 14, 1) * 0.35 * strength : 0) + pointer.burst * strength;
@@ -756,6 +758,10 @@ function mountWaves(container) {
     };
 
     const onPointerMove = e => {
+      if (e.pointerType === 'touch') {
+        if (touchPress && touchPress.id === e.pointerId && Math.hypot(e.clientX - touchPress.x, e.clientY - touchPress.y) > 12) touchPress = null;
+        return; // Native scrolling and pinch gestures never inject a ripple.
+      }
       const spot = locate(e);
       pointer.x = spot.x;
       pointer.y = spot.y;
@@ -766,6 +772,11 @@ function mountWaves(container) {
 
     const onPointerDown = e => {
       const spot = locate(e);
+      if (e.pointerType === 'touch') {
+        touchPress = e.isPrimary && spot.inside && !e.target.closest('.site-header,a,button,input,select,textarea,[role="button"]')
+          ? { id: e.pointerId, x: e.clientX, y: e.clientY, started: performance.now() } : null;
+        return;
+      }
       if (!spot.inside) return;
       pointer.x = spot.x;
       pointer.y = spot.y;
@@ -778,6 +789,7 @@ function mountWaves(container) {
     };
 
     const onPointerLeave = () => {
+      touchPress = null;
       pointer.inside = false;
       pointer.placed = false;
       start();
@@ -788,7 +800,16 @@ function mountWaves(container) {
     };
 
     const onPointerUp = e => {
-      if (e.pointerType === 'touch') onPointerLeave();
+      if (e.pointerType !== 'touch') return;
+      const press = touchPress;
+      onPointerLeave();
+      const spot = locate(e);
+      if (!press || press.id !== e.pointerId || !spot.inside || performance.now() - press.started > 650 || Math.hypot(e.clientX - press.x, e.clientY - press.y) > 12) return;
+      // A completed tap creates one local impulse; lifting the finger lets it fade.
+      pointer.x = pointer.lastX = spot.x;
+      pointer.y = pointer.lastY = spot.y;
+      pointer.burst = 1.2;
+      start();
     };
 
     const onVisibility = () => {
@@ -800,6 +821,7 @@ function mountWaves(container) {
     window.addEventListener('pointerdown', onPointerDown, { passive: true });
     window.addEventListener('pointerout', onPointerOut, { passive: true });
     window.addEventListener('pointerup', onPointerUp, { passive: true });
+    window.addEventListener('pointercancel', onPointerLeave, { passive: true });
     window.addEventListener('blur', onPointerLeave);
     document.addEventListener('visibilitychange', onVisibility);
 
@@ -829,6 +851,7 @@ function mountWaves(container) {
       window.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointerout', onPointerOut);
       window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerLeave);
       window.removeEventListener('blur', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibility);
       wakeRef.current = null;
